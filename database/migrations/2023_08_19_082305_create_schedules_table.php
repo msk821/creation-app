@@ -9,17 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+    //  * @return void
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('tag_id')->constrained();
-            
-            $table->string('title',50);
-            $table->string('body',200);
+            $table->date('start_date')->comment('開始日');
+            $table->date('end_date')->comment('終了日');
+            $table->foreignId('post_id')->constrained();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('schedules');
     }
 };
