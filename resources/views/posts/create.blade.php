@@ -26,5 +26,8 @@
             <div>
                 <button type='submit'>投稿</button>
             </div>
+            <div>
+                <a href="/">投稿一覧</a>
+            </div>
         </form>
     </x-app-layout>
