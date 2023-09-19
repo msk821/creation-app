@@ -11,9 +11,11 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'tag_id',
-        'date',
         'title',
-        'body'
+        'body',
+        'start_date',
+        'end_date',
+        
     ];
     
     public function tag()
@@ -24,5 +26,21 @@ class Post extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+    // 実装1
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Like');
+    }
+
+    // 実装2
+    // Viewで使う、いいねされているかを判定するメソッド。
+    public function isLikedBy($user): bool {
+        return Like::where('user_id', $user->id)->where('post_id', $this->id)->first() !==null;
+    }
     
+    
+    // public function user()
+    // {
+    //     return $this->belongTo(User::class);
+    // }
 }

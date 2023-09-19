@@ -20,6 +20,8 @@ return new class extends Migration
             
             $table->string('title',50);
             $table->string('body',200);
+            $table->date('start_date')->comment('開始日');
+            $table->date('end_date')->comment('終了日');
             $table->timestamps();
         });
     }

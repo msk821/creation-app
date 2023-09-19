@@ -5,9 +5,15 @@
     <title>{{ $tag->name }}の投稿</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
     <h1>{{ $tag->name }}の投稿</h1>
+    <div class="footer">
+        <a href="/">投稿一覧</a>
+        <a href="/create">投稿</a>
+        <a href="/calendar">マイページ</a>
+    </div>
     <div class='posts'>
         @foreach($posts as $post)
         <div class='post'>
