@@ -80,6 +80,7 @@ class PostController extends Controller
 }
     
     public function calendar() {
+        session()->forget('last_searched_tag');
         $schedules = Schedule::with('post')->get();
         $schedulesJson = $schedules->toJson();
         return view('schedules.index')->with(['schedules' => $schedules, 'schedulesJson' => $schedulesJson]);
@@ -89,23 +90,33 @@ class PostController extends Controller
      public function getTasksByDate(Request $request)
     {
         $date = $request->query('date'); // クエリパラメーターから日付を取得
-        $posts = Post::where('start_date', $date)->get();
+        $lastSearchedTag = session('last_searched_tag');
+        
+        if($lastSearchedTag)
+        {
+            $posts = Post::where('start_date', $date)->whereHas('tag', function ($query) use ($lastSearchedTag) {
+             $query->where('name', $lastSearchedTag);})
+             ->get();
+        }
+        else
+        {
+            $posts = Post::where('start_date',$date)->get();
+        }
+        
+        
+        
         return view('schedules.list', compact(['posts', 'date']));
     }
 
     public function searchTasks(Request $request) {
         // バリデーション
         $request->validate([
-            //'title' => 'required|string', // フォームから送信されたタイトル
-            // 'start_date' => 'required|date',
-            // 'end_date' => 'required|date'
             'tag' => 'required|string',
         ]);
     
-        //$title = $request->input('title');
-        // $start_date = $request->input('start_date');
-        // $end_date = $request->input('end_date');
         $tag = $request->input('tag');
+        session(['last_searched_tag' => $tag]);
+        
     
         // 予定取得処理（これがaxiosのresponse.dataに入る）
         $posts = Post::select(

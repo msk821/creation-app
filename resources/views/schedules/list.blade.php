@@ -2,13 +2,13 @@
     <div class="container">
         <h1>日付: {{ $date }}</h1>
         @if($posts->count() > 0)
-            <ul>
+        <div class='post'>
                 @foreach($posts as $post)
-                    <li>
-
-                    </li>
+                <h2 class='title'>{{ $post->title }}</h2>
+                <a href="{{ route('tags.index', $post->tag) }}">{{ $post->tag->name }}</a>
+                <p class='body'>{{ $post->body }}</p>
                 @endforeach
-            </ul>
+        </div>
         @else
             <p>該当する投稿はありません。</p>
         @endif
