@@ -30,9 +30,9 @@ Route::get('/dashboard', function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [PostController::class,'index']);
+    Route::get('/', [PostController::class,'index'])->name('posts.index');
     Route::post('/posts',[PostController::class,'store']);
-    Route::get('/create',[PostController::class,'create']);
+    Route::get('/create',[PostController::class,'create'])->name('posts.create');
     Route::get('/tags/{tag}', [TagController::class, 'index'])->name('tags.index');
     Route::post('/posts/like', [PostController::class, 'like'])->name('posts.like');
     Route::get('/calendar', [PostController::class, 'calendar'])->name('calendar');
